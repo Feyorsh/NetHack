@@ -717,7 +717,7 @@ readmail(struct obj *otmp UNUSED)
     if (!(mr = nh_getenv("MAILREADER")))
         mr = DEF_MAILREADER;
 
-    if (child(1)) {
+    if (child(0)) {
         (void) execl(mr, mr, (char *) 0);
         nh_terminate(EXIT_FAILURE);
     }
