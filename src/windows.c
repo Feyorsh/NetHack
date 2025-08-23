@@ -42,6 +42,10 @@ extern struct window_procs Gnome_procs;
 #ifdef MSWIN_GRAPHICS
 extern struct window_procs mswin_procs;
 #endif
+#ifdef LISP_GRAPHICS
+#include "winlisp.h"
+extern struct window_procs lisp_procs;
+#endif
 #ifdef SHIM_GRAPHICS
 extern struct window_procs shim_procs;
 #endif
@@ -128,6 +132,9 @@ static struct win_choices {
 #endif
 #ifdef MSWIN_GRAPHICS
     { &mswin_procs, 0 CHAINR(0) },
+#endif
+#ifdef LISP_GRAPHICS
+    { &lisp_procs, win_lisp_init CHAINR(0) },
 #endif
 #ifdef SHIM_GRAPHICS
     { &shim_procs, 0 CHAINR(0) },
