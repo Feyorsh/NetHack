@@ -139,6 +139,9 @@ static struct win_information window_opts[] = {
 #ifdef MSWIN_GRAPHICS /* win32 */
     { "mswin", "Windows GUI", TRUE },
 #endif
+#ifdef LISP_GRAPHICS
+    { "lisp", "lisp", TRUE },
+#endif
 #ifdef SHIM_GRAPHICS
     { "shim", "NetHack Library Windowing Shim", TRUE },
 #endif
@@ -303,6 +306,12 @@ mdlib_version_string(char *outbuf, const char *delim)
             PATCHLEVEL);
 #if (NH_DEVEL_STATUS != NH_STATUS_RELEASED)
     Sprintf(eos(outbuf), "-%d", EDITLEVEL);
+#endif
+#ifdef LISP_GRAPHICS
+    Sprintf(eos(outbuf), " lisp-patch");
+#endif
+#ifdef LISP_VERSION
+    Sprintf(eos(outbuf), " %s", LISP_VERSION);
 #endif
     return outbuf;
 }

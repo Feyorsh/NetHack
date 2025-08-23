@@ -59,12 +59,13 @@
 /* #define X11_GRAPHICS */   /* X11 interface */
 /* #define QT_GRAPHICS */    /* Qt interface */
 /* #define MSWIN_GRAPHICS */ /* Windows NT, CE, Graphics */
+/* #define LISP_GRAPHICS */ /* lisp interface */
 
 /*
  * Define the default window system.  This should be one that is compiled
  * into your system (see defines above).  Known window systems are:
  *
- *      tty, X11, mac, amii, BeOS, Qt, Gem, Gnome, shim
+ *      tty, X11, mac, amii, BeOS, Qt, Gem, Gnome, lisp, shim
  */
 
 /* MAC also means MAC windows */
@@ -138,6 +139,12 @@
 #ifdef CURSES_GRAPHICS
 #ifndef DEFAULT_WINDOW_SYS
 #define DEFAULT_WINDOW_SYS "curses"
+#endif
+#endif
+
+#ifdef LISP_GRAPHICS
+#ifndef DEFAULT_WINDOW_SYS
+#define DEFAULT_WINDOW_SYS "lisp"
 #endif
 #endif
 

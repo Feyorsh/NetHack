@@ -317,9 +317,12 @@ WINBEOBJ =
 #	$(TARGETPFX)NHMenuWindow.o $(TARGETPFX)NHMapWindow.o \
 #	$(TARGETPFX)tile.o
 #
+# Files for the lisp port
+WINLISPSRC = ../win/lisp/winlisp.c tile.c
+WINLISPOBJ = winlisp.o tile.o
 #
-#WINSRC = $(WINTTYSRC)
-#WINOBJ = $(WINTTYOBJ)
+#WINSRC = $(WINLISPSRC)
+#WINOBJ = $(WINLISPOBJ)
 #
 # Curses - Karl Garrison, Tangles
 #WINSRC = $(WINCURSESSRC)
@@ -363,6 +366,10 @@ WINKDELIB = -lkdecore -lkdeui -lXext
 #
 # libraries for BeOS
 WINBELIB = -lbe
+#
+# libraries for lisp port
+WINLISPLIB =
+#WINLIB = $(WINLISPLIB)
 #
 # libraries for curses port
 # link with ncurses
@@ -546,7 +553,7 @@ SYSCXXSRC = ../sys/share/cppregex.cpp
 GENCSRC = #tile.c
 
 # all windowing-system-dependent .c (for dependencies and such)
-WINCSRC = $(WINTTYSRC) $(WINCURSESSRC) $(WINX11SRC) $(WINSHIMSRC)
+WINCSRC = $(WINTTYSRC) $(WINCURSESSRC) $(WINX11SRC) $(WINLISPSRC) $(WINSHIMSRC)
 # all windowing-system-dependent .cpp (for dependencies and such)
 WINCXXSRC = $(WINQTSRC) $(WINQT3SRC) $(WINBESRC)
 
@@ -1275,7 +1282,7 @@ $(TARGETPFX)vision.o: vision.c $(HACK_H)
 $(TARGETPFX)weapon.o: weapon.c $(HACK_H)
 $(TARGETPFX)were.o: were.c $(HACK_H)
 $(TARGETPFX)wield.o: wield.c $(HACK_H)
-$(TARGETPFX)windows.o: windows.c $(HACK_H) ../include/dlb.h ../include/wintty.h
+$(TARGETPFX)windows.o: windows.c $(HACK_H) ../include/dlb.h ../include/wintty.h ../include/winlisp.h
 $(TARGETPFX)wizard.o: wizard.c $(HACK_H)
 $(TARGETPFX)wizcmds.o: wizcmds.c $(HACK_H) ../include/func_tab.h
 $(TARGETPFX)worm.o: worm.c $(HACK_H)
@@ -1304,6 +1311,9 @@ qt_xcmd.moc: $(QTn_H) ../win/Qt/qt_xcmd.h
 	$(MOCPATH) -o $@ ../win/Qt/qt_xcmd.h
 qt_yndlg.moc: $(QTn_H) ../win/Qt/qt_yndlg.h
 	$(MOCPATH) -o $@ ../win/Qt/qt_yndlg.h
+winlisp.o: ../win/lisp/winlisp.c $(HACK_H) ../include/winlisp.h \
+		../include/func_tab.h ../include/dlb.h ../include/patchlevel.h
+	$(CC) $(CFLAGS) -c ../win/lisp/winlisp.c
 # DEPENDENCIES MUST END AT END OF FILE
 # IF YOU PUT STUFF HERE IT WILL GO AWAY
 # see make depend above

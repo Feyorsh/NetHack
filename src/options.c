@@ -3158,7 +3158,7 @@ optfn_petattr(
             bad_negation(allopt[optidx].name, TRUE);
             retval = optn_err;
         } else if (op != empty_optstr) {
-#if defined(TTY_GRAPHICS) || defined(CURSES_GRAPHICS)
+#if defined(TTY_GRAPHICS) || defined(CURSES_GRAPHICS) || defined(LISP_GRAPHICS)
             int itmp = match_str2attr(op, FALSE);
 
             if (itmp == -1) {
@@ -3181,8 +3181,8 @@ optfn_petattr(
         return retval;
     }
     if (req == get_val || req == get_cnf_val) {
-#if defined(TTY_GRAPHICS) || defined(CURSES_GRAPHICS)
-        if (WINDOWPORT(tty) || WINDOWPORT(curses)) {
+#if defined(TTY_GRAPHICS) || defined(CURSES_GRAPHICS) || defined(LISP_GRAPHICS)
+        if (WINDOWPORT(tty) || WINDOWPORT(curses) || WINDOWPORT(lisp)) {
             Strcpy(opts, attr2attrname(iflags.wc2_petattr));
         } else
 #endif
@@ -5301,8 +5301,8 @@ optfn_boolean(
             iflags.wc_ascii_map = negated;
             break;
         case opt_hilite_pet:
-#if defined(TTY_GRAPHICS) || defined(CURSES_GRAPHICS)
-            if (WINDOWPORT(tty) || WINDOWPORT(curses)) {
+#if defined(TTY_GRAPHICS) || defined(CURSES_GRAPHICS) || defined(LISP_GRAPHICS)
+            if (WINDOWPORT(tty) || WINDOWPORT(curses) || WINDOWPORT(lisp)) {
                 /* if we're enabling hilite_pet and petattr isn't set,
                    set it to Inverse; if we're disabling, leave petattr
                    alone so that re-enabling will get current value back
