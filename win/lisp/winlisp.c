@@ -409,31 +409,6 @@ attr_to_string(attr)
 }
 
 static const char*
-special_glyph_to_string(special)
-     unsigned special;
-{
-  switch (special)
-    {
-    case MG_CORPSE:
-      return "corpse";
-    case MG_INVIS:
-      return "invis";
-    case MG_DETECT:
-      return "detect";
-    case MG_PET:
-      return "pet";
-    case MG_RIDDEN:
-      return "ridden";
-    }
-
-  /* If it's a combination, just return special. */
-  if (special)
-    return "special";
-  else
-    return "none";
-}
-
-static const char*
 wintype_to_string(type)
      int type;
 {
@@ -1803,24 +1778,18 @@ lisp_print_glyph(window, x, y, glyph, bkglyph)
     boolean reverse_on = FALSE;
     int	    color;
     unsigned special;
+    int attr = -1;
 
     /* map glyph to character and color */
     (void) mapglyph(glyph, &ch, &color, &special, x, y, 0);
 
-    /* If the user doesn't want to highlight the pet, then we erase
-       the PET bit from special. In the lisp code the special argument
-       will be 'pet if the glyph is a pet and will be printed in the
-       color of the pet highlight face. But we don't want this if the
-       user hasn't turned on hilite_pet. */
-    if (!iflags.hilite_pet)
-      {
-        special &= ~MG_PET;
-      }
+    if ((special & MG_PET) && iflags.hilite_pet) {
+        attr = ATR_INVERSE;
+    } else if ((special & (MG_DETECT | MG_BW_LAVA)) && iflags.use_inverse)
+        attr = ATR_INVERSE;
 
     if (window == WIN_MAP)
       {
-        /* The last parameter, special, is optional. It is only
-           present when the tile is special in some way. */
         lisp_cmd("print-glyph",
                  lisp_int(x);
                  lisp_int(y);
@@ -1828,8 +1797,8 @@ lisp_print_glyph(window, x, y, glyph, bkglyph)
                  lisp_int(glyph);
                  lisp_int(glyph2tile[glyph]);
                  lisp_int(ch);
-                 if (special)
-                     lisp_literal(special_glyph_to_string(special)););
+                 if (attr != -1)
+                     lisp_literal(attr_to_string(attr)););
       }
     else
       lisp_cmd ("error",
