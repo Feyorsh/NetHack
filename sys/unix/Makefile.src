@@ -266,9 +266,12 @@ WINBEOBJ =
 #	../win/BeOS/NHMenuWindow.cpp ../win/BeOS/NHMapWindow.cpp tile.c
 #WINBEOBJ = winbe.o NHWindow.o NHMenuWindow.o NHMapWindow.o tile.o
 #
+# Files for the lisp port
+WINLISPSRC = ../win/lisp/winlisp.c tile.c
+WINLISPOBJ = winlisp.o tile.o
 #
-#WINSRC = $(WINTTYSRC)
-#WINOBJ = $(WINTTYOBJ)
+#WINSRC = $(WINLISPSRC)
+#WINOBJ = $(WINLISPOBJ)
 #
 # Curses - Karl Garrison, Tangles
 #WINSRC = $(WINCURSESSRC)
@@ -318,6 +321,10 @@ WINGEMLIB = -le_gem -lgem
 #
 # libraries for BeOS 
 WINBELIB = -lbe
+#
+# libraries for lisp port
+WINLISPLIB =
+#WINLIB = $(WINLISPLIB)
 #
 # libraries for curses port
 # link with ncurses
@@ -467,7 +474,7 @@ SYSCXXSRC = ../sys/share/cppregex.cpp
 GENCSRC = vis_tab.c	#tile.c
 
 # all windowing-system-dependent .c (for dependencies and such)
-WINCSRC = $(WINTTYSRC) $(WINCURSESSRC) $(WINX11SRC) $(WINGNOMESRC) $(WINGEMSRC)
+WINCSRC = $(WINTTYSRC) $(WINCURSESSRC) $(WINX11SRC) $(WINGNOMESRC) $(WINGEMSRC) $(WINLISPSRC)
 # all windowing-system-dependent .cpp (for dependencies and such)
 WINCXXSRC = $(WINQTSRC) $(WINQT4SRC) $(WINBESRC)
 
@@ -881,6 +888,9 @@ load_img.o: ../win/gem/load_img.c ../include/load_img.h
 	$(CC) $(CFLAGS) -c -o $@ ../win/gem/load_img.c
 gr_rect.o: ../win/gem/gr_rect.c ../include/gr_rect.h
 	$(CC) $(CFLAGS) -c -o $@ ../win/gem/gr_rect.c
+winlisp.o: ../win/lisp/winlisp.c $(HACK_H) ../include/winlisp.h \
+		../include/func_tab.h ../include/dlb.h ../include/patchlevel.h
+	$(CC) $(CFLAGS) -c ../win/lisp/winlisp.c
 tile.o: tile.c $(HACK_H)
 cppregex.o: ../sys/share/cppregex.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ ../sys/share/cppregex.cpp
@@ -1085,7 +1095,8 @@ vision.o: vision.c $(HACK_H) ../include/vis_tab.h
 weapon.o: weapon.c $(HACK_H)
 were.o: were.c $(HACK_H)
 wield.o: wield.c $(HACK_H)
-windows.o: windows.c $(HACK_H) ../include/wingem.h ../include/winGnome.h
+windows.o: windows.c $(HACK_H) ../include/wingem.h ../include/winGnome.h \
+	../include/winlisp.h
 wizard.o: wizard.c $(HACK_H) ../include/qtext.h
 worm.o: worm.c $(HACK_H) ../include/lev.h
 worn.o: worn.c $(HACK_H)

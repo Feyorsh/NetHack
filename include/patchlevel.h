@@ -16,6 +16,8 @@
  */
 #define EDITLEVEL 0
 
+#define LISP_VERSION "0.13.3"
+
 #define COPYRIGHT_BANNER_A "NetHack, Copyright 1985-2023"
 #define COPYRIGHT_BANNER_B \
     "         By Stichting Mathematisch Centrum and M. Stephenson."
