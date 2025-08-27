@@ -1123,14 +1123,12 @@ lisp_select_menu(window, how, menu_list)
   int size = 0;
   int toggle;
 
+redo:
   lisp_cmd ("select-menu",
 	    lisp_int (window);
 	    lisp_literal (how_to_string (how)));
 
   read_string ("menu", &list);
-
-/*   lisp_prompt ("menu"); */
-/*   fgets (list, LINESIZ, stdin); */
 
   /* The client should submit a structure like this:
 
@@ -1163,7 +1161,11 @@ lisp_select_menu(window, how, menu_list)
 	}
 
       /* assign the item ID */
-      lisp_get_menu_identifier (atoi (token), &(*menu_list)[size-1].item );
+      if (!lisp_get_menu_identifier (atoi (token), &(*menu_list)[size-1].item )) {
+          free(*menu_list);
+          free(list);
+          goto redo;
+      }
 
       /* Read the item count */
       token = strtok (NULL, delim);
