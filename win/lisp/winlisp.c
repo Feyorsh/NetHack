@@ -1435,10 +1435,8 @@ lisp_display_nhwindow(winid window, boolean blocking)
     }
   else if (blocking)
     {
-      if (window == WIN_MESSAGE)
+      if (window == WIN_MESSAGE && program_state.gameover)
 	{
-	  /* blocking on the message window happens only at the end of
-	     the game */
 	  lisp_cmd ("end",);
 	}
       else

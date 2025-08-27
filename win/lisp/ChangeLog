@@ -1,3 +1,9 @@
+2025-08-27  George Huebner  <george@feyor.sh>
+
+	* winlisp.c (lisp_display_nhwindow): Only send "end" if the game
+	is actually over. This fixes an issue where MSGTYPE=stop borks the
+	window configuration.
+
 2025-08-26  George Huebner  <george@feyor.sh>
 
 	* winlisp.c (lisp_select_menu): Loop until input conforms to
