@@ -160,6 +160,7 @@ cmd_index_t cmd_index[] =
    {"togglepickup", CMD_KEY, '@'},
    {"prinuse", CMD_KEY, '*'},
    {"countgold", CMD_KEY, '$'},
+   {"getpos_menu", CMD_KEY, '!'},
 
    {"kick", CMD_KEY, C('d')},
    {"listspells", CMD_KEY, '+'},
