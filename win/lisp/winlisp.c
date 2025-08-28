@@ -318,7 +318,7 @@ struct window_procs lisp_procs = {
     genl_status_finish,
     genl_status_enablefield,
     lisp_status_update,
-    genl_can_suspend_yes,
+    genl_can_suspend_no,
     lisp_update_inventory,
     lisp_ctrl_nhwindow,
 };
