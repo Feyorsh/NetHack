@@ -1823,22 +1823,3 @@ lisp_cliparound(x, y)
 
 void lisp_start_screen() { return; } /* called from setftty() in unixtty.c */
 void lisp_end_screen() {return; }    /* called from settty() in unixtty.c */
-
-static void
-get_death_text (buf)
-     char buf[BUFSZ];
-{
-
-}
-
-void
-lisp_outrip(window, how)
-     winid window;
-     int how;
-{
-  lisp_cmd ("outrip",
-	    lisp_int (window);
-	    lisp_string (plname);
-      lisp_int (money_cnt(invent));
-      lisp_string ("Died while trying to finish nethack-el."));
-}
