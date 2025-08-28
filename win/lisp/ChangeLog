@@ -1,5 +1,10 @@
 2025-08-28  George Huebner  <george@feyor.sh>
 
+	* winlisp.c (lisp_procs): Use `genl_can_suspend_no` to
+	unconditionally disable suspend.
+
+2025-08-28  George Huebner  <george@feyor.sh>
+
 	* winlisp.c (cmd_index): Add '!' for toggling menus in getpos
 	(note that this is not the shell extended command).
 	* ../../src/cmd.c (extcmdlist): Ensure shell extended command is
