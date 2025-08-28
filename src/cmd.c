@@ -1841,7 +1841,7 @@ struct ext_func_tab extcmdlist[] = {
     { '!',    "shell",
               "leave game to enter a sub-shell ('exit' to come back)",
               dosh_core, (IFBURIED | GENERALCMD | NOFUZZERCMD
-#ifndef SHELL
+#if !defined(SHELL) || defined(WIN_LISP)
                         | CMD_NOT_AVAILABLE
 #endif /* SHELL */
                         ), NULL },
