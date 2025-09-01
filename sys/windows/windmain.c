@@ -87,6 +87,8 @@ char default_window_sys[7] =
             "mswin";
 #elif defined(TTY_GRAPHICS)
             "tty";
+#elif defined(LISP_GRAPHICS)
+            "lisp";
 #endif
 #ifdef WANT_GETHDATE
 static struct stat hbuf;
@@ -282,11 +284,13 @@ _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);*/
     if (!iflags.windowtype_locked) {
 #if defined(TTY_GRAPHICS)
         Strcpy(default_window_sys, "tty");
+#elif defined(LISP_GRAPHICS)
+        Strcpy(default_window_sys, "lisp");
 #else
 #if defined(CURSES_GRAPHICS) && !defined(MSWIN_GRAPHICS)
         Strcpy(default_window_sys, "curses");
 #endif /* CURSES */
-#endif /* TTY */
+#endif /* TTY/LISP */
         if (iflags.windowtype_deferred && gc.chosen_windowtype[0])
             windowtype = gc.chosen_windowtype;
     }

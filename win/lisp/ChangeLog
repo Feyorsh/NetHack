@@ -1,5 +1,18 @@
 2025-09-02  George Huebner  <george@feyor.sh>
 
+	* ../../sys/windows/GNUmakefile: Various changes to get the damn
+	thing to compile, notably:
+	- Do not build NetHackW.exe or attempt to package for distribution
+	- Disable sound support
+	- Do not build with DEBUGINFO (needs Windows SDK DLLs to be
+	installed)
+	- Do not build with curses
+	- Remove MD_USE_TMPFILE_S/add HAS_NO_MKSTEMP to fix tmpfile race
+	condition
+        * ../../sys/windows/windmain.c: Make lisp default window port.
+
+2025-09-02  George Huebner  <george@feyor.sh>
+
 	* winlisp.c (lisp_select_menu): Each selected menu item now
 	includes a "page number" to differentiate between menu items with
 	the same accelerator.
