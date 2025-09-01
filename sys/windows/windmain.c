@@ -81,6 +81,8 @@ char default_window_sys[7] =
             "mswin";
 #elif defined(TTY_GRAPHICS)
             "tty";
+#elif defined(LISP_GRAPHICS)
+            "lisp";
 #endif
 #ifdef WANT_GETHDATE
 static struct stat hbuf;
@@ -219,7 +221,7 @@ _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);*/
     //       windowtype = gc.chosen_windowtype;
     //   windowtype = gc.chosen_windowtype;
 
-#if !defined(MSWIN_GRAPHICS)
+#if defined(WIN32CON) && defined(TTY_GRAPHICS)
     nethack_enter_consoletty();
     consoletty_open(1);
 #endif
@@ -234,7 +236,11 @@ _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);*/
 #ifdef MSWIN_GRAPHICS
         windowtype = "mswin";
 #else
+#ifdef LISP_GRAPHICS
+        windowtype = "lisp";
+#else
         windowtype = "tty";
+#endif
 #endif
     }
     choose_windows(

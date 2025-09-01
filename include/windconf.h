@@ -106,7 +106,7 @@ extern char *windows_exepath(void);
  */
 
 #ifdef __GNUC__
-#define MD_USE_TMPFILE_S
+//#define MD_USE_TMPFILE_S
 #
 #ifdef strncasecmp
 #undef strncasecmp

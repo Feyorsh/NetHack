@@ -28,7 +28,7 @@
 # The default make target (so just typing 'mingw32-make').
 #
 
-default: package
+default: binary
 
 #---------------------------------------------------------------
 # Where do you want the game to be built (which folder)?
@@ -47,14 +47,14 @@ GAMEDIR = ../binary
 #
 # windsound uses built-in Microsoft API's, no 3rd party download is required.
 
-SOUND_LIBRARIES = windsound
+#SOUND_LIBRARIES = windsound
 
 #
 #---------------------------------------------------------------
 # Do you want debug information in the executable?
 #
 
-DEBUGINFO = Y
+DEBUGINFO = N
 
 #
 #---------------------------------------------------------------
@@ -99,7 +99,7 @@ GCC_EXTRA_WARNINGS = N
 
 $(info Using $(lastword $(MAKEFILE_LIST)))
 
-SKIP_NETHACKW = N
+SKIP_NETHACKW = Y
 USE_LUADLL = Y
 WANT_LUAC = N
 
@@ -247,6 +247,7 @@ NHV=$(subst ",,$(NHV1))
 # SSYS    - Shared system files
 # MSWSYS  - mswin specific files
 # TTY     - window port files (tty)
+# LISP    - window port files (lisp)
 # MSWIN   - window port files (win32)
 # WCURSES - window port files (curses)
 # WCHAIN  - window port files (chain)
@@ -263,6 +264,7 @@ SSYS    =../sys/share
 SNDSYS  =../sound/windsound
 MSWSYS  =../sys/windows
 TTY     =../win/tty
+LISP    =../win/lisp
 MSWIN   =../win/win32
 WCHAIN  =../win/chain
 WCURSES =../win/curses
@@ -378,7 +380,7 @@ DLLDEF = $(COMMONDEF) -D_WINDOWS -D_USRDLL -D_WINDLL
 CONSOLEDEF = $(COMMONDEF) -D_CONSOLE
 
 # To build util targets
-CFLAGSU = $(CFLAGS) $(CONSOLEDEF) $(DLBFLG)
+CFLAGSU = $(CFLAGS) $(CONSOLEDEF) $(DLBFLG) -DHAS_NO_MKSTEMP
 
 LIBS = -lcomctl32 -lgdi32 -lole32 -lshell32 -luserenv -luuid -lwinmm \
        -lrpcrt4 -lbcrypt $(LIBUCRT)
@@ -1236,7 +1238,7 @@ COREOBJS = $(addsuffix .o, allmain alloc apply artifact attrib ball bones botl \
 	   getpos glyphs hack iactions insight invent isaac64 light lock \
 	   mail makemon mcastu mdlib mhitm mhitu minion mklev mkmap mkmaze mkobj mkroom \
 	   mon mondata monmove monst mplayer mthrowu muse music \
-	   nhlobj nhlsel nhlua windsound o_init objects objnam options \
+	   nhlobj nhlsel nhlua o_init objects objnam options \
 	   pager pickup pline polyself potion pray priest quest questpgr \
 	   random read rect region report restore rip rnd role rumors \
 	   save sfbase sfstruct shk shknam sit selvar sounds sp_lev \
@@ -1348,13 +1350,13 @@ CLEAN_FILE += $(NHWTARGETS) $(NHWOBJS) $(NHWRES) $(BMPS) $(WAV)
 #==========================================
 # nethack
 #==========================================
-CFLAGSNH = $(CFLAGSU) $(CFLAGSXTRA) $(SOUNDLIBINCL) -DNO_TILE_C -D_LIB -DWIN32CON $(SOUNDLIBDEFS)
-CPPFLAGSNH = $(CFLAGSU) $(CPPFLAGSXTRA) -DNO_TILE_C -D_LIB -DWIN32CON $(SOUNDLIBDEFS)
+CFLAGSNH = $(CFLAGSU) $(CFLAGSXTRA) $(SOUNDLIBINCL) -DNO_TILE_C -D_LIB -DLISP_GRAPHICS -DWIN32CON $(SOUNDLIBDEFS)
+CPPFLAGSNH = $(CFLAGSU) $(CPPFLAGSXTRA) -DNO_TILE_C -D_LIB -DLISP_GRAPHICS -DWIN32CON $(SOUNDLIBDEFS)
 
 ONH = $(O)nethack
 
-NHONLY = consoletty.o getline.o topl.o wintty.o
-ifeq "$(ADD_CURSES)" "Y"
+NHONLY = consoletty.o getline.o topl.o wintty.o winlisp.o
+ifeq "nil" "Y"
 NHCURSESFLAGS = -DCURSES_GRAPHICS -DCURSES_UNICODE $(PDCURSESFLAGS) -DPDC_NCMOUSE
 CFLAGSNH += $(NHCURSESFLAGS)
 NHONLY += $(addsuffix .o, cursdial cursinit cursinvt cursmain cursmesg cursmisc cursstat curswins)
@@ -1448,6 +1450,9 @@ $(ONH)/%.o: $(WSHR)/%.c $(NHLUAH) | $(ONH)
 	$(cc) $(CFLAGSNH) $< -o$@
 
 $(ONH)/%.o: $(TTY)/%.c $(NHLUAH) | $(ONH)
+	$(cc) $(CFLAGSNH) $< -o$@
+
+$(ONH)/%.o: $(LISP)/%.c $(NHLUAH) | $(ONH)
 	$(cc) $(CFLAGSNH) $< -o$@
 
 $(ONH)/%.o: $(WCURSES)/%.c $(NHLUAH) | $(ONH)
