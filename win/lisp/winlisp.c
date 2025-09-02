@@ -1045,6 +1045,8 @@ void lisp_add_menu(
 	  ch = lisp_menu_item_list[lisp_menu_list_num].accelerator = lisp_current_accelerator;
 	  if (lisp_current_accelerator == 'z')
 	    lisp_current_accelerator = 'A';
+	  else if (lisp_current_accelerator == 'Z')
+	    lisp_current_accelerator = 'a';
 	  else
 	    lisp_current_accelerator++;
 	}
