@@ -45,6 +45,9 @@ typedef struct
 static char lisp_current_accelerator;
 
 /* Helper structures to map menu id's to nethack anything's */
+// classic C Programmer's disease; the size of menus are unbounded,
+// but dealing with the lifetime of this array (especially the
+// 'anything' elements) is annoying.
 static lisp_menu_item_t lisp_menu_item_list[1000];
 static int lisp_menu_list_num;
 
@@ -1080,13 +1083,15 @@ lisp_end_menu(
 }
 
 static int
-lisp_get_menu_identifier(char ch, anything *identifier)
+lisp_get_menu_identifier(unsigned page, char ch, anything *identifier)
 {
   int i;
 
   for(i=0; i < lisp_menu_list_num; i++)
     {
-      if( lisp_menu_item_list[i].accelerator == ch )
+      // this is obviously a dumb way to do implement "pages", but I
+      // don't think we can just do page*(26*2)... or can we?
+      if( lisp_menu_item_list[i].accelerator == ch && (page-- == 0))
 	{
 	  *identifier = lisp_menu_item_list[i].identifier;
 	  return 1;
@@ -1102,6 +1107,7 @@ lisp_select_menu(winid window, int how, menu_item **menu_list)
   const char *delim = "() \n";
   char *list;
   char *token;
+  unsigned page;
   int size = 0;
 
 redo:
@@ -1113,10 +1119,10 @@ redo:
 
   /* The client should submit a structure like this:
 
-   ((ch count) (ch count) (ch count) ...)
+   ((page ch count) (page ch count) (page ch count) ...)
 
-   where ch is the accelerator for the menu item and count is the
-   number of them to select.
+   where page is menu_item_idx//(26*2+6), ch is the accelerator for
+   the menu item and count is the number of them to select.
 
    We strtok it so we just get id count id count id count. */
 
@@ -1141,8 +1147,10 @@ redo:
 		 size * sizeof (menu_item));
 	}
 
+      page = atoi(token);
+      token = strtok (NULL, delim);
       /* assign the item ID */
-      if (!lisp_get_menu_identifier (atoi (token), &(*menu_list)[size-1].item )) {
+      if (!lisp_get_menu_identifier (page, atoi (token), &(*menu_list)[size-1].item )) {
           free(*menu_list);
           free(list);
           goto redo;
