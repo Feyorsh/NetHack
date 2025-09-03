@@ -1054,7 +1054,7 @@ optfn_altkeyhandling(
 #endif
         return optn_ok;
     }
-#ifdef WIN32CON
+#if defined(WIN32CON) && defined(TTY_GRAPHICS)
     if (req == do_handler) {
         return set_keyhandling_via_option();
     }
