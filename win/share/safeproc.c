@@ -498,7 +498,7 @@ safe_update_inventory(int arg UNUSED)
     return;
 }
 
-#ifdef WIN32CON
+#if defined(WIN32CON) && defined(TTY_GRAPHICS)
 extern win_request_info *tty_ctrl_nhwindow(winid window UNUSED,
                                           int request UNUSED,
                                           win_request_info *wri UNUSED);
@@ -510,7 +510,7 @@ safe_ctrl_nhwindow(
     int request UNUSED,
     win_request_info *wri UNUSED)
 {
-#ifdef WIN32CON
+#if defined(WIN32CON) && defined(TTY_GRAPHICS)
     return (*tty_ctrl_nhwindow)(window, request, wri);
 #else
     return (win_request_info *) 0;

@@ -1,5 +1,15 @@
 2025-09-02  George Huebner  <george@feyor.sh>
 
+	* ../../src/windows/GNUmakefile: Don't build TTY port.
+	* ../../src/windows/windmain.c: Stricter #ifdef guards to
+	compensate for building with Win 32 Console I/O but not
+	TTY_GRAPHICS.
+        * ../../src/windows/windsys.c: Likewise.
+        * ../../win/share/safeproc.c: Likewise.
+        * ../../src/options.c: Likewise.
+
+2025-09-02  George Huebner  <george@feyor.sh>
+
 	* ../../sys/windows/GNUmakefile: Various changes to get the damn
 	thing to compile, notably:
 	- Do not build NetHackW.exe or attempt to package for distribution

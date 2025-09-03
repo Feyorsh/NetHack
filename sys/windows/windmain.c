@@ -69,10 +69,14 @@ char windows_yn_function(const char *, const char *, char);
 #ifdef WIN32CON
 extern int windows_console_custom_nhgetch(void);
 void safe_routines(void);
+#ifdef TTY_GRAPHICS
 int tty_self_recover_prompt(void);
+#endif
 #endif
 
 int other_self_recover_prompt(void);
+
+int GUILaunched = FALSE;          /* from consoletty.c */
 
 char orgdir[PATHLEN];
 boolean getreturn_enabled;
@@ -308,7 +312,7 @@ _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);*/
     iflags.use_background_glyph = FALSE;
     if (WINDOWPORT(mswin))
         iflags.use_background_glyph = TRUE;
-#ifdef WIN32CON
+#if defined(WIN32CON) && defined(TTY_GRAPHICS)
     if (WINDOWPORT(tty))
         consoletty_open(1);
 #endif
@@ -318,7 +322,7 @@ _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);*/
 
     init_nhwindows(&argc, argv);
 
-#ifdef WIN32CON
+#if defined(WIN32CON) && defined(TTY_GRAPHICS)
     if (WINDOWPORT(tty))
         toggle_mouse_support();
 #endif
@@ -1051,7 +1055,7 @@ getlock(void)
 
     (void) nhclose(fd);
 
-#ifdef WIN32CON
+#if defined(WIN32CON) && defined(TTY_GRAPHICS)
     if (WINDOWPORT(tty))
         prompt_result = tty_self_recover_prompt();
     else
@@ -1068,7 +1072,7 @@ getlock(void)
                     : (prompt_result == 1)
                         ? "recover the old game"
                         : "not start a new game");
-#ifdef WIN32CON
+#if defined(WIN32CON) && defined(TTY_GRAPHICS)
     if (istty)
         term_clear_screen();
 #endif
@@ -1089,7 +1093,7 @@ getlock(void)
         }
     } else if (prompt_result < 0) {    /* destroy old game */
         if (eraseoldlocks()) {
-#ifdef WIN32CON
+#if defined(WIN32CON) && defined(TTY_GRAPHICS)
             if (istty)
                 term_clear_screen(); /* display gets fouled up otherwise */
 #endif
@@ -1168,7 +1172,7 @@ file_newer(const char *a_path, const char *b_path)
     return FALSE;
 }
 
-#ifdef WIN32CON
+#if defined(WIN32CON) && defined(TTY_GRAPHICS)
 /*
  * returns:
  *     1 if game should be recovered

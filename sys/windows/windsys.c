@@ -255,13 +255,15 @@ VA_DECL(const char *, s)
 #ifdef TTY_GRAPHICS
     if (iflags.window_inited)
         term_end_screen();
-#endif
+
     if (WINDOWPORT(tty)) {
         buf[0] = '\n';
         (void) vsnprintf(&buf[1], sizeof buf - (1 + sizeof "\n"), s, VA_ARGS);
         Strcat(buf, "\n");
         msmsg(buf);
-    } else {
+    } else
+#endif
+    {
         (void) vsnprintf(buf, sizeof buf - sizeof "\n", s, VA_ARGS);
         Strcat(buf, "\n");
         raw_printf(buf);
@@ -356,8 +358,10 @@ interject_assistance(int num, int interjection_type, genericptr_t ptr1, genericp
 void
 interject(int interjection_type)
 {
+#ifdef TTY_GRAPHICS
     if (interjection_type >= 0 && interjection_type < INTERJECTION_TYPES)
         msmsg("%s", interjection_buf[interjection_type]);
+#endif
 }
 
 #ifdef RUNTIME_PASTEBUF_SUPPORT
@@ -579,7 +583,7 @@ getreturn(const char *str)
    initializing the window port */
 void nethack_enter_windows(void)
 {
-#ifdef WIN32CON
+#if defined(WIN32CON) && defined(TTY_GRAPHICS)
     if (WINDOWPORT(tty))
         nethack_enter_consoletty();
 #endif
