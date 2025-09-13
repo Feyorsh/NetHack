@@ -19,7 +19,7 @@
  */
 #define EDITLEVEL 0
 
-#define LISP_VERSION "0.13.3"
+#define LISP_VERSION "0.14.1"
 
 /*
  * Development status possibilities.
