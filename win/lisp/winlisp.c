@@ -1098,7 +1098,7 @@ lisp_end_menu(window, prompt)
 }
 
 static int
-lisp_get_menu_identifier(ch, identifier)
+lisp_get_menu_identifier(page, ch, identifier)
      unsigned page;
      char ch;
      anything *identifier;
