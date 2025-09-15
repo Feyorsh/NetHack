@@ -328,12 +328,11 @@ struct window_procs lisp_procs = {
 #define lisp_cmd(s,body)			\
   do						\
     {						\
-      printf("(nhapi-%s ",s);		\
+      printf("(nethack-nhapi-%s ",s);		\
       body;					\
       printf(")\n");				\
     }						\
   while (0)
-/* #define lisp_cmd0(s) printf ("(nhapi-%s)\n", s) */
 #define lisp_list(body)				\
   do						\
     {						\
@@ -1298,7 +1297,7 @@ lisp_nhgetch()
           cmd = lisp_get_cmd (cmdstr);
           if (cmd == -1)
             {
-              printf ("(nhapi-message 'atr-none \"undefined-command %s\")\n", cmdstr);
+              printf ("(nethack-nhapi-message 'atr-none \"undefined-command %s\")\n", cmdstr);
             }
           else if (cmd_index[cmd].type == CMD_LISP)
             {
@@ -1678,7 +1677,7 @@ lisp_get_ext_cmd()
   } else {
       int i;
 
-      printf("(nhapi-get-ext-cmd '(");
+      printf("(nethack-nhapi-get-ext-cmd '(");
 
       for (i = 0; extcmdlist[i].ef_txt != (char *) 0; i++) {
           printf("(\"%s\" . %d)", extcmdlist[i].ef_txt, i);
