@@ -1,10 +1,15 @@
+2025-09-22  George Huebner  <george@feyor.sh>
+
+	* winlisp.c (lisp_display_file): Query the client to check if they
+	were able to display the requested file; if not, attempt to send
+	it to them. Required for remote games.
+
 2025-09-15  George Huebner  <george@feyor.sh>
 
 	* winlisp.c (lisp_cmd): Change "nhapi-" to "nethack-nhapi-" to
 	reflect namespace changes in lisp code.
 	(lisp_nhgetch): Likewise.
 	(lisp_get_ext_cmd): Likewise.
-
 
 2025-09-02  George Huebner  <george@feyor.sh>
 
