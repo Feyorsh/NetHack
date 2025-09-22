@@ -66,6 +66,8 @@ const char *hunger_stat[] = {
 	"Starved"
 };
 
+extern char configfile[BUFSZ];
+
 typedef struct
 {
   char *name;
@@ -548,6 +550,7 @@ win_lisp_init (dir)
 int dir;
 {
   /* Code to be executed on startup. */
+  return;
 }
 
 void
@@ -1615,7 +1618,32 @@ lisp_init_nhwindows(argcp,argv)
      int* argcp;
      char** argv;
 {
+  char *need_options_file_p;
   int i;
+
+  lisp_cmd ("need-options-file",);
+  read_string("string", &need_options_file_p);
+
+  if (!strcmp(need_options_file_p, "t")) {
+      char buf[BUFSZ];
+      FILE *fp = fopen(configfile, "r");
+
+      if (fp == NULL) {
+          Sprintf(buf, "cannot open options file %s", configfile);
+          lisp_cmd ("receive-file", lisp_string(buf); lisp_string("error"););;
+          return;
+      }
+
+      while (fgets(buf, BUFSZ, fp) != NULL) {
+          lisp_cmd ("receive-file", lisp_string (buf););;
+      }
+
+      fclose(fp);
+      lisp_cmd ("receive-file", lisp_string (""); lisp_t;);;
+  }
+
+  free(need_options_file_p);
+
 
   /* Print each command-line option, constructing a list of strings */
   lisp_cmd ("init-nhwindows",
