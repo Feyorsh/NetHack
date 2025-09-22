@@ -3,6 +3,9 @@
 	* winlisp.c (lisp_display_file): Query the client to check if they
 	were able to display the requested file; if not, attempt to send
 	it to them. Required for remote games.
+	(lisp_init_nhwindows): Give the client the config file if they
+	need it. This function was chosen because it is only executed once
+	and runs before almost all other lisp code.
 
 2025-09-15  George Huebner  <george@feyor.sh>
 
