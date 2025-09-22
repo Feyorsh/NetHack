@@ -1,3 +1,9 @@
+2025-09-22  George Huebner  <george@feyor.sh>
+
+	* winlisp.c (lisp_display_file): Query the client to check if they
+	were able to display the requested file; if not, attempt to send
+	it to them. Required for remote games.
+
 2025-09-15  George Huebner  <george@feyor.sh>
 
 	* winlisp.c (lisp_cmd): Change "nhapi-" to "nethack-nhapi-" to
