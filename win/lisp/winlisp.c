@@ -1612,9 +1612,33 @@ lisp_get_ext_cmd(void)
 void
 lisp_display_file(const char *str, boolean complain)
 {
+  char *success;
   lisp_cmd ("display-file",
 	    lisp_string (str);
 	    complain ? lisp_t : lisp_nil);;
+
+  read_string("string", &success);
+  if (strcmp(success, "t")) {
+      char buf[BUFSZ];
+      dlb *fp = dlb_fopen(str, "r");
+
+      if (fp == NULL) {
+          if (complain) {
+              Sprintf(buf, "cannot open file %s", str);
+              lisp_cmd ("receive-file", lisp_string (buf); lisp_string("error"););;
+          }
+          return;
+      }
+
+      while (dlb_fgets(buf, BUFSZ, fp) != NULL) {
+          lisp_cmd ("receive-file", lisp_string (buf););;
+      }
+
+      dlb_fclose(fp);
+      lisp_cmd ("receive-file", lisp_string (""); lisp_t;);;
+  }
+
+  free(success);
 }
 
 char
