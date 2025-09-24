@@ -16,7 +16,7 @@
  */
 #define EDITLEVEL 0
 
-#define LISP_VERSION "0.14.1"
+#define LISP_VERSION "0.14.2"
 
 #define COPYRIGHT_BANNER_A "NetHack, Copyright 1985-2023"
 #define COPYRIGHT_BANNER_B \
