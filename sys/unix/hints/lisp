@@ -209,6 +209,8 @@ endif   #WANT_WIN_CURSES
 WINSRC += $(WINLISPSRC)
 WINOBJ0 += $(WINLISPOBJ)
 WINLIB += $(WINLISPLIB)
+XTRASRC += tile.c
+XTRAOBJ += $(TARGETPFX)tile.o
 
 ifeq "$(CCISCLANG)" "1"
 # clang-specific starts

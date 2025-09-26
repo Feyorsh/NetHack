@@ -1,3 +1,15 @@
+2025-09-26  George Huebner  <george@feyor.sh>
+
+	* ../../sys/unix/hints/lisp: Add tile.c the intended way.
+	* ../../sys/windows/GNUmakefile: Add tile.c to build.
+	* ../../include/global.h: Define TILES_IN_GLYPHMAP, required for
+	glyph_info.tileidx to work
+	* winlisp.c (lisp_procs): Add WC_ASCII_MAP and WC_TILED_MAP
+	capabilities. These probably will never do anything because usage
+	of tiles is entirely determined by the client, but good to have
+	anyway.
+	(lisp_add_menu): Inform client not to display a tile if NO_GLYPH.
+
 2025-09-22  George Huebner  <george@feyor.sh>
 
 	* winlisp.c (lisp_display_file): Query the client to check if they

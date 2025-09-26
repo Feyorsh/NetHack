@@ -318,8 +318,8 @@ WINBEOBJ =
 #	$(TARGETPFX)tile.o
 #
 # Files for the lisp port
-WINLISPSRC = ../win/lisp/winlisp.c tile.c
-WINLISPOBJ = winlisp.o tile.o
+WINLISPSRC = ../win/lisp/winlisp.c
+WINLISPOBJ = winlisp.o
 #
 #WINSRC = $(WINLISPSRC)
 #WINOBJ = $(WINLISPOBJ)

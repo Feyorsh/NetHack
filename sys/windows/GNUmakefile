@@ -1350,8 +1350,8 @@ CLEAN_FILE += $(NHWTARGETS) $(NHWOBJS) $(NHWRES) $(BMPS) $(WAV)
 #==========================================
 # nethack
 #==========================================
-CFLAGSNH = $(CFLAGSU) $(CFLAGSXTRA) $(SOUNDLIBINCL) -DNO_TILE_C -D_LIB -DNOTTYGRAPHICS -DLISP_GRAPHICS -DWIN32CON $(SOUNDLIBDEFS)
-CPPFLAGSNH = $(CFLAGSU) $(CPPFLAGSXTRA) -DNO_TILE_C -D_LIB -DNOTTYGRAPHICS -DLISP_GRAPHICS -DWIN32CON $(SOUNDLIBDEFS)
+CFLAGSNH = $(CFLAGSU) $(CFLAGSXTRA) $(SOUNDLIBINCL) -DTILES -D_LIB -DNOTTYGRAPHICS -DLISP_GRAPHICS -DWIN32CON $(SOUNDLIBDEFS)
+CPPFLAGSNH = $(CFLAGSU) $(CPPFLAGSXTRA) -DTILES -D_LIB -DNOTTYGRAPHICS -DLISP_GRAPHICS -DWIN32CON $(SOUNDLIBDEFS)
 
 ONH = $(O)nethack
 
@@ -1363,6 +1363,7 @@ NHONLY += $(addsuffix .o, cursdial cursinit cursinvt cursmain cursmesg cursmisc 
 endif
 
 DATE_O  = $(addsuffix .o, $(addprefix $(ONH)/, date))
+TILE_O  = $(addsuffix .o, $(addprefix $(ONH)/, tile))
 
 NHOBJS = $(addprefix $(ONH)/, $(COREOBJS) $(NHONLY))
 NHRES = $(ONH)/conres.o
@@ -1370,11 +1371,11 @@ NHTARGET = $(GAMEDIR)/NetHack.exe
 
 nethack: $(NHTARGET)
 
-$(GAMEDIR)/NetHack.exe: $(NHOBJS) $(NHRES) $(DATE_O) $(LUALIB) $(PDCLIB) $(HLHACKLIB) \
+$(GAMEDIR)/NetHack.exe: $(NHOBJS) $(NHRES) $(DATE_O) $(TILE_O) $(LUALIB) $(PDCLIB) $(HLHACKLIB) \
 	$(SOUNDLIBLIBS) | $(GAMEDIR)
 	$(ld) $(LDFLAGS) -mconsole $^ $(HLHACKLIB) $(LIBS) -static -lstdc++ -o$@
 
-$(ONH)/%.o: $(SRC)/%.c $(NHLUAH) | $(ONH)
+$(ONH)/%.o: $(SRC)/%.c $(NHLUAH) | $(ONH) tilemap
 	$(cc) $(CFLAGSNH) $< -o$@
 
 #==========================================

@@ -248,7 +248,7 @@ static int extended_cmd_id = 0;
 struct window_procs lisp_procs = {
     WPID(lisp),
     (WC_ALIGN_MESSAGE | WC_ALIGN_STATUS | WC_COLOR | WC_INVERSE
-      | WC_HILITE_PET | WC_WINDOWCOLORS
+      | WC_HILITE_PET | WC_WINDOWCOLORS | WC_ASCII_MAP | WC_TILED_MAP
       | WC_PERM_INVENT | WC_POPUP_DIALOG | WC_SPLASH_SCREEN),
     (WC2_DARKGRAY | WC2_HITPOINTBAR
 #ifdef CURSES_UNICODE
@@ -1062,8 +1062,8 @@ void lisp_add_menu(
 
   lisp_cmd ("add-menu",
 	    lisp_int (window);
-	    lisp_int (glyphinfo->glyph);
-	    lisp_int (glyphinfo->gm.tileidx); // UNUSED
+	    lisp_int (glyphinfo->glyph); // UNUSED
+	    lisp_int ((glyphinfo->glyph == NO_GLYPH) ? -1 : glyphinfo->gm.tileidx);
 	    lisp_int (ch);
 	    lisp_int (gch);
 	    lisp_literal (attr_to_string (attr));
