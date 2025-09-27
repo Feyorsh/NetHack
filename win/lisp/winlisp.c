@@ -1081,7 +1081,7 @@ lisp_add_menu(window, glyph, identifier, ch, gch, attr, str, preselected)
   lisp_cmd ("add-menu",
 	    lisp_int (window);
 	    lisp_int (glyph);
-	    lisp_int (glyph2tile[glyph]);
+	    lisp_int ((glyph == NO_GLYPH) ? -1 : glyph2tile[glyph]);
 	    lisp_int (ch);
 	    lisp_int (gch);
 	    lisp_literal (attr_to_string (attr));
