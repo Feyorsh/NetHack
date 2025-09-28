@@ -1258,6 +1258,7 @@ other_self_recover_prompt(void)
 {
     int c, ci, ct, pl, retval = 0;
     boolean ismswin = WINDOWPORT(mswin),
+            islisp = WINDOWPORT(lisp),
             iscurses = WINDOWPORT(curses);
 
     pl = 1;
@@ -1275,7 +1276,7 @@ other_self_recover_prompt(void)
 
  other_ask_again:
 
-    if (!ismswin && !iscurses) {
+    if (!ismswin && !iscurses && !islisp) {
         while ((ci = nhgetch()) && !(ci == '\n' || ci == 13)) {
             if (ct > 0) {
                 /* invalid answer */
@@ -1294,7 +1295,7 @@ other_self_recover_prompt(void)
         c = y_n("Are you sure you wish to destroy the old game, rather than try to "
                   "recover it? [yn] ");
         pl = 2;
-        if (!ismswin && !iscurses) {
+        if (!ismswin && !iscurses && !islisp) {
             c = 'n';
             ct = 0;
             goto other_ask_again;
