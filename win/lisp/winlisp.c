@@ -1559,9 +1559,8 @@ lisp_init_nhwindows(int *argcp, char **argv)
 
       fclose(fp);
       lisp_cmd ("receive-file", lisp_string (""); lisp_t;);;
+      free(need_options_file_p);
   }
-
-  free(need_options_file_p);
 
 
   /* Print each command-line option, constructing a list of strings */
@@ -1642,28 +1641,28 @@ lisp_display_file(const char *str, boolean complain)
 	    lisp_string (str);
 	    complain ? lisp_t : lisp_nil);;
 
-  read_string("string", &success);
-  if (strcmp(success, "t")) {
-      char buf[BUFSZ];
-      dlb *fp = dlb_fopen(str, "r");
+  if (!read_string("string", &success)) {
+      if (strcmp(success, "t")) {
+          char buf[BUFSZ];
+          dlb *fp = dlb_fopen(str, "r");
 
-      if (fp == NULL) {
-          if (complain) {
-              Sprintf(buf, "cannot open file %s", str);
-              lisp_cmd ("receive-file", lisp_string (buf); lisp_string("error"););;
+          if (fp == NULL) {
+              if (complain) {
+                  Sprintf(buf, "cannot open file %s", str);
+                  lisp_cmd ("receive-file", lisp_string (buf); lisp_string("error"););;
+              }
+              return;
           }
-          return;
-      }
 
-      while (dlb_fgets(buf, BUFSZ, fp) != NULL) {
-          lisp_cmd ("receive-file", lisp_string (buf););;
-      }
+          while (dlb_fgets(buf, BUFSZ, fp) != NULL) {
+              lisp_cmd ("receive-file", lisp_string (buf););;
+          }
 
-      dlb_fclose(fp);
-      lisp_cmd ("receive-file", lisp_string (""); lisp_t;);;
+          dlb_fclose(fp);
+          lisp_cmd ("receive-file", lisp_string (""); lisp_t;);;
+      }
+      free(success);
   }
-
-  free(success);
 }
 
 char
