@@ -1,3 +1,7 @@
+2025-10-11  George Huebner  <george@feyor.sh>
+
+	* winlisp.c (lisp_display_file): Fix double free.
+
 2025-09-26  George Huebner  <george@feyor.sh>
 
 	* ../../sys/unix/hints/lisp: Add tile.c the intended way.
