@@ -1618,6 +1618,7 @@ lisp_init_nhwindows(argcp,argv)
      int* argcp;
      char** argv;
 {
+  char verbuf[BUFSZ];
   char *need_options_file_p;
   int i;
 
@@ -1646,6 +1647,7 @@ lisp_init_nhwindows(argcp,argv)
 
   /* Print each command-line option, constructing a list of strings */
   lisp_cmd ("init-nhwindows",
+	    lisp_string (getversionstring(verbuf));
 	    for (i=0; i<*argcp; i++)
 	      lisp_string (argv[i]));
 
