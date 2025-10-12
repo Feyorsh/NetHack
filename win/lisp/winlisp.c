@@ -1537,6 +1537,7 @@ lisp_number_pad(int state UNUSED)
 void
 lisp_init_nhwindows(int *argcp, char **argv)
 {
+  char verbuf[BUFSZ];
   char *need_options_file_p;
   int i;
 
@@ -1565,6 +1566,7 @@ lisp_init_nhwindows(int *argcp, char **argv)
 
   /* Print each command-line option, constructing a list of strings */
   lisp_cmd ("init-nhwindows",
+	    lisp_string (getversionstring(verbuf, sizeof verbuf));
 	    for (i=0; i<*argcp; i++)
 	      lisp_string (argv[i]));
 
