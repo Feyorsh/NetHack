@@ -870,7 +870,11 @@ lisp_askname ()
 {
   char *line;
   lisp_cmd ("askname",);
-  read_string ("string", &line);
+  for (int i = 0; i < 10; i++)
+      if (read_string("string", &line) != -1)
+          goto done;
+  bail("Giving up after 10 tries.\n");
+done:
   strncpy (plname, line, PL_NSIZ);
   plname[PL_NSIZ-1] = '\0';
   free (line);
@@ -1136,10 +1140,11 @@ lisp_select_menu(window, how, menu_list)
 
 redo:
   lisp_cmd ("select-menu",
-	    lisp_int (window);
-	    lisp_literal (how_to_string (how)));
+     lisp_int (window);
+     lisp_literal (how_to_string (how)));
+  if (read_string("menu", &list) == -1)
+      return size;
 
-  read_string ("menu", &list);
 
   /* The client should submit a structure like this:
 
@@ -1294,13 +1299,14 @@ lisp_nhgetch()
 
       while (!nh_cmd)
         {
-          read_command ("command", cmdstr, count_buf);
+          if (read_command("command", cmdstr, count_buf) == -1)
+              return '\033';
 
           count_pos = count_buf;
           cmd = lisp_get_cmd (cmdstr);
           if (cmd == -1)
             {
-              printf ("(nethack-nhapi-message 'atr-none \"undefined-command %s\")\n", cmdstr);
+              printf ("(nethack-nhapi-message 'nethack-atr-none-face \"undefined-command %s\")\n", cmdstr);
             }
           else if (cmd_index[cmd].type == CMD_LISP)
             {
@@ -1516,8 +1522,8 @@ lisp_display_nhwindow(window, blocking)
   if (window != WIN_MESSAGE && window != WIN_STATUS && window != WIN_MAP)
     {
       lisp_cmd ("display-menu", lisp_int (window));
-      read_string ("dummy", &dummy);
-      free (dummy);
+      if (read_string ("dummy", &dummy) != -1)
+          free (dummy);
     }
   else if (blocking)
     {
@@ -1528,8 +1534,8 @@ lisp_display_nhwindow(window, blocking)
       else
 	{
 	  lisp_cmd ("block",);
-	  read_string ("dummy", &dummy);
-	  free (dummy);
+	  if (read_string ("dummy", &dummy) != -1)
+	      free (dummy);
 	}
     }
   else if (window == WIN_STATUS)
@@ -1680,8 +1686,8 @@ lisp_delay_output()
 {
   char *dummy;
   lisp_cmd ("delay-output",);
-  read_string ("dummy", &dummy);
-  free (dummy);
+  if (read_string ("dummy", &dummy) != -1)
+      free (dummy);
 }
 
 void
@@ -1691,9 +1697,12 @@ lisp_getlin(question, input)
 {
   char *tmp;
   lisp_cmd ("getlin", lisp_string (question));
-  read_string ("string", &tmp);
-  /* FIXME: potential buffer overflow. */
-  strcpy (input, tmp);
+  if (read_string("string", &tmp) == -1) {
+      strcpy(input, "\033");
+  } else {
+      strncpy(input, tmp, BUFSZ-1);
+      free(tmp);
+  }
 }
 
 int
@@ -1767,8 +1776,9 @@ lisp_yn_function(ques, choices, def)
     {
       char *dir;
       lisp_cmd ("ask-direction",
-		lisp_string (ques));
-      read_string ("direction", &dir);
+   	    lisp_string (ques));
+      if (read_string("direction", &dir) == -1)
+          return '\033';
       if (!strcmp (dir, "n"))
 	answer = 'k';
       else if (!strcmp (dir, "s"))
@@ -1808,6 +1818,7 @@ lisp_yn_function(ques, choices, def)
 		lisp_string (choices);
 		lisp_int (def));
       read_int ("number", &answer);
+      answer = (answer == -1) ? '\033' : answer;
     }
 
   return (char)answer;
