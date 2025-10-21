@@ -11,6 +11,11 @@
 #define SHORT_FILENAMES
 #endif
 
+#include <stdint.h>
+#include <sys/stat.h>
+#include <sys/time.h>
+#include <unistd.h>
+
 #include "hack.h"
 #include "winlisp.h"
 #include "func_tab.h"
@@ -365,6 +370,24 @@ struct window_procs lisp_procs = {
         printf("\" ");                              \
     } while (0)
 
+struct timeval start;
+void
+print_timestamp()
+{
+    struct timeval now;
+    gettimeofday(&now, NULL);
+
+    now.tv_sec -= start.tv_sec;
+    now.tv_usec -= start.tv_usec;
+    if (now.tv_usec < 0) {
+        now.tv_sec--;
+        now.tv_usec += 1000000;
+    }
+
+    printf("; (%u %u %u 0)\n", (uint32_t) (now.tv_sec >> 16),
+           (uint32_t) (now.tv_sec & 0xFFFF), (uint32_t) now.tv_usec);
+}
+
 static const char *
 attr_to_string(int attr)
 {
@@ -432,9 +455,11 @@ read_int(const char *prompt, int *i)
 {
     char line[BUFSZ];
     int rv;
+    print_timestamp();
     printf("%s> ", prompt);
     fflush(stdout);
     fgets(line, BUFSZ, stdin);
+    printf("\n");
     rv = sscanf(line, "%d", i);
     if (rv != 1)
         *i = -1;
@@ -454,11 +479,13 @@ read_string(const char *prompt, char **str)
     *str = malloc(size);
     (*str)[0] = '\0';
 
+    print_timestamp();
     printf("%s> ", prompt);
     fflush(stdout);
     do {
         /* Read the string */
         rv = fgets(tmp, BUFSZ, stdin);
+        printf("\n");
         if (rv == NULL)
             break;
 
@@ -1522,6 +1549,8 @@ lisp_init_nhwindows(int *argcp, char **argv)
     char verbuf[BUFSZ];
     char *need_options_file_p;
     int i;
+
+    gettimeofday(&start, NULL);
 
     printf("\n;; START LISP\n");
 

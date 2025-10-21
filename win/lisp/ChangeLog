@@ -1,5 +1,12 @@
 2026-04-07  George Huebner  <george@feyor.sh>
 
+	* winlisp.c (print_timestamp): New function to print a timestamp
+	in the format of the elisp function `current-time`.
+	(read_int): Update accordingly.
+	(read_string): Update accordingly.
+
+2026-04-07  George Huebner  <george@feyor.sh>
+
 	* winlisp.c (lisp_init_nhwindows): Fix double free (caused by
 	misbehaving TTYs).
 	(read_command): Fix potential sscanf overflow.
