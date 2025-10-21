@@ -1638,16 +1638,15 @@ lisp_init_nhwindows(argcp,argv)
       if (fp == NULL) {
           Sprintf(buf, "cannot open options file %s", configfile);
           lisp_cmd ("receive-file", lisp_string(buf); lisp_string("error"););;
-          return;
-      }
+      } else {
+          while (fgets(buf, BUFSZ, fp) != NULL) {
+              lisp_cmd ("receive-file", lisp_string (buf););;
+          }
 
-      while (fgets(buf, BUFSZ, fp) != NULL) {
-          lisp_cmd ("receive-file", lisp_string (buf););;
+          fclose(fp);
+          lisp_cmd ("receive-file", lisp_string (""); lisp_t;);;
+          free(need_options_file_p);
       }
-
-      fclose(fp);
-      lisp_cmd ("receive-file", lisp_string (""); lisp_t;);;
-      free(need_options_file_p);
   }
 
 
