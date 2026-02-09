@@ -1645,9 +1645,9 @@ lisp_init_nhwindows(argcp,argv)
 
           fclose(fp);
           lisp_cmd ("receive-file", lisp_string (""); lisp_t;);;
-          free(need_options_file_p);
       }
   }
+  free(need_options_file_p);
 
 
   /* Print each command-line option, constructing a list of strings */
