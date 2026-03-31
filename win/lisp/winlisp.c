@@ -1502,28 +1502,27 @@ char **argv;
     printf("\n;; START LISP\n");
 
     lisp_cmd("need-options-file", );
-    read_string("string", &need_options_file_p);
 
-    if (!strcmp(need_options_file_p, "t")) {
-        char buf[BUFSZ];
-        FILE *fp = fopen(configfile, "r");
+    if (read_string("string", &need_options_file_p) != -1) {
+        if (!strcmp(need_options_file_p, "t")) {
+            char buf[BUFSZ];
+            FILE *fp = fopen(configfile, "r");
 
-        if (fp == NULL) {
-            Sprintf(buf, "cannot open options file %s", configfile);
-            lisp_cmd("receive-file", lisp_string(buf); lisp_string("error"););
-            ;
-        } else {
-            while (fgets(buf, BUFSZ, fp) != NULL) {
-                lisp_cmd("receive-file", lisp_string(buf););
-                ;
+            if (fp == NULL) {
+                Sprintf(buf, "cannot open options file %s", configfile);
+                lisp_cmd("receive-file", lisp_string(buf);
+                         lisp_string("error"););
+            } else {
+                while (fgets(buf, BUFSZ, fp) != NULL) {
+                    lisp_cmd("receive-file", lisp_string(buf););
+                }
+
+                fclose(fp);
+                lisp_cmd("receive-file", lisp_string(""); lisp_t;);
             }
-
-            fclose(fp);
-            lisp_cmd("receive-file", lisp_string(""); lisp_t;);
-            ;
         }
+        free(need_options_file_p);
     }
-    free(need_options_file_p);
 
     /* Print each command-line option, constructing a list of strings */
     lisp_cmd("init-nhwindows", lisp_string(getversionstring(verbuf));
