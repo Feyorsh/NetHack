@@ -4,11 +4,11 @@
 #if defined(BOS) || defined(NHSTDC)
 #define DIMENSION_P int
 #else
-# ifdef WIDENED_PROTOTYPES
+#ifdef WIDENED_PROTOTYPES
 #define DIMENSION_P unsigned int
-# else
+#else
 #define DIMENSION_P Dimension
-# endif
+#endif
 #endif
 
 extern struct window_procs tty_procs;
@@ -27,12 +27,13 @@ extern void lisp_clear_nhwindow(winid);
 extern void lisp_display_nhwindow(winid, boolean);
 extern void lisp_destroy_nhwindow(winid);
 extern void lisp_curs(winid, int, int);
-extern void lisp_status_update(int, genericptr_t, int, int, int, unsigned long *);
+extern void lisp_status_update(int, genericptr_t, int, int, int,
+                               unsigned long *);
 extern void lisp_putstr(winid, int, const char *);
 extern void lisp_display_file(const char *, boolean);
 extern void lisp_start_menu(winid, unsigned long);
-extern void lisp_add_menu(winid, const glyph_info *, const ANY_P*,
-			              char, char, int, int, const char *, unsigned);
+extern void lisp_add_menu(winid, const glyph_info *, const ANY_P *, char,
+                          char, int, int, const char *, unsigned);
 extern void lisp_end_menu(winid, const char *);
 extern int lisp_select_menu(winid, int, menu_item **);
 extern char lisp_message_menu(char, int, const char *);
@@ -45,7 +46,8 @@ extern void lisp_cliparound(int, int);
 #ifdef POSITIONBAR
 extern void lisp_update_positionbar(char *);
 #endif
-extern void lisp_print_glyph(winid, coordxy, coordxy, const glyph_info*, const glyph_info*);
+extern void lisp_print_glyph(winid, coordxy, coordxy, const glyph_info *,
+                             const glyph_info *);
 extern void lisp_raw_print(const char *);
 extern void lisp_raw_print_bold(const char *);
 extern int lisp_nhgetch(void);
@@ -58,6 +60,6 @@ extern int lisp_get_ext_cmd(void);
 extern void lisp_number_pad(int);
 extern void lisp_delay_output(void);
 
-extern win_request_info * lisp_ctrl_nhwindow(winid, int, win_request_info *);
+extern win_request_info *lisp_ctrl_nhwindow(winid, int, win_request_info *);
 
 #endif /* WINLISP_H */
