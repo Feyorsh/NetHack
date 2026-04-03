@@ -1,3 +1,9 @@
+2026-04-02  George Huebner  <george@feyor.sh>
+
+	* winlisp.c (lisp_init_nhwindows): Print a header so clients can
+	filter out any noise (e.g. config errors printed without
+	lisp_rawprint) from before the lisp window port is initialized.
+
 2025-10-11  George Huebner  <george@feyor.sh>
 
 	* winlisp.c (lisp_display_file): Fix double free.

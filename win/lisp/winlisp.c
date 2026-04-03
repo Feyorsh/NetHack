@@ -1503,6 +1503,8 @@ lisp_init_nhwindows(int *argcp, char **argv)
     char *need_options_file_p;
     int i;
 
+    printf("\n;; START LISP\n");
+
     lisp_cmd("need-options-file", );
     read_string("string", &need_options_file_p);
 
