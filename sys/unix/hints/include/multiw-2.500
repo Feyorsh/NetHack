@@ -32,6 +32,7 @@
 ifdef WANT_WIN_ALL
 WANT_WIN_TTY=1
 WANT_WIN_CURSES=1
+WANT_WIN_LISP=1
 WANT_WIN_X11=1
 WANT_WIN_QT=1
 else
@@ -40,7 +41,9 @@ ifndef WANT_WIN_TTY
 ifndef  WANT_WIN_CURSES
 ifndef   WANT_WIN_X11
 ifndef    WANT_WIN_QT
+ifndef     WANT_WIN_LISP
 WANT_WIN_TTY=1
+endif
 endif
 endif
 endif
@@ -55,12 +58,15 @@ endif
 # sanity for something like 'make WANT_WIN_CURSES=1 WANT_DEFAULT=X11' but
 # 'makedefs -v' would notice, complain, and quit causing 'make' to quit.
 ifndef WANT_DEFAULT
-# pick the first one enabled among { tty, curses, X11, Qt }
+# pick the first one enabled among { tty, curses, lisp, X11, Qt }
 ifdef WANT_WIN_TTY
 WANT_DEFAULT=tty
 else
 ifdef  WANT_WIN_CURSES
 WANT_DEFAULT=curses
+else
+ifdef  WANT_WIN_LISP
+WANT_DEFAULT=lisp
 else
 ifdef   WANT_WIN_X11
 WANT_DEFAULT=X11
@@ -69,6 +75,7 @@ ifdef    WANT_WIN_QT
 WANT_DEFAULT=Qt
 else
 # ? shouldn't be able to get here...
+endif
 endif
 endif
 endif
@@ -98,6 +105,12 @@ WINCFLAGS += -D_XOPEN_SOURCE_EXTENDED=1
 endif
 WINSRC += $(WINCURSESSRC)
 WINOBJ0 += $(WINCURSESOBJ)
+endif
+
+ifdef WANT_WIN_LISP
+WINCFLAGS += -DLISP_GRAPHICS
+WINSRC += $(WINLISPSRC)
+WINOBJ0 += $(WINLISPOBJ)
 endif
 
 ifdef WANT_WIN_X11

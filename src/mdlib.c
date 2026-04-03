@@ -308,10 +308,7 @@ mdlib_version_string(char *outbuf, const char *delim)
     Sprintf(eos(outbuf), "-%d", EDITLEVEL);
 #endif
 #ifdef LISP_GRAPHICS
-    Sprintf(eos(outbuf), " lisp-patch");
-#endif
-#ifdef LISP_VERSION
-    Sprintf(eos(outbuf), " %s", LISP_VERSION);
+    Sprintf(eos(outbuf), " lisp-patch %s", LISP_VERSION);
 #endif
     return outbuf;
 }
