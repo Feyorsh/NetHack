@@ -1233,15 +1233,11 @@ const char *build_date;
 #endif
 #endif
 #else
-#ifdef LISP_GRAPHICS
-    Strcpy(statusbuf, " lisp-patch");
-#ifdef LISP_VERSION
-    Strcat(statusbuf, " ");
-    Strcat(statusbuf, LISP_VERSION);
-#endif
-#else
     statusbuf[0] = '\0';
 #endif
+#ifdef LISP_GRAPHICS
+    Strcat(statusbuf, " lisp-patch ");
+    Strcat(statusbuf, LISP_VERSION);
 #endif
 
     subbuf[0] = '\0';

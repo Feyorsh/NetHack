@@ -116,12 +116,6 @@
 #define HACKDIR "\\nethack"
 #endif
 
-#ifdef LISP_GRAPHICS
-#ifndef DEFAULT_WINDOW_SYS
-#define DEFAULT_WINDOW_SYS "lisp"
-#endif
-#endif
-
 #ifndef DEFAULT_WINDOW_SYS
 #define DEFAULT_WINDOW_SYS "tty"
 #endif
