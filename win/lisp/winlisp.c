@@ -492,7 +492,7 @@ char *count;
     *count = 0;
     if (read_string(prompt, &buf) == -1)
         return -1;
-    rv = sscanf(buf, "%s %s", cmd, count);
+    rv = sscanf(buf, "%255s %1023s", cmd, count);
     free(buf);
     if (rv != 2)
         *count = 0;
