@@ -4,6 +4,9 @@
 	misbehaving TTYs).
 	(read_command): Fix potential sscanf overflow.
 	(lisp_select_menu): Fix potential NULL dereference.
+	(lisp_add_menu): Make lisp_menu_item_list a dynamically sized
+	array to prevent overflow.
+	(lisp_start_menu): Likewise.
 
 2026-04-02  George Huebner  <george@feyor.sh>
 

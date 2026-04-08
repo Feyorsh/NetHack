@@ -47,12 +47,9 @@ typedef struct {
 /* An iterator for assigning accelerator keys. */
 static char lisp_current_accelerator;
 
-/* Helper structures to map menu id's to nethack anything's */
-// classic C Programmer's disease; the size of menus are unbounded,
-// but dealing with the lifetime of this array (especially the
-// 'anything' elements) is annoying.
-static lisp_menu_item_t lisp_menu_item_list[1000];
+static lisp_menu_item_t *lisp_menu_item_list = NULL;
 static int lisp_menu_list_num;
+static int lisp_menu_list_max;
 
 extern char *enc_stat[];
 const char *hunger_stat[] = { "Satiated", "",        "Hungry", "Weak",
@@ -1019,7 +1016,12 @@ const char *str;
 
 void lisp_start_menu(window) winid window;
 {
+    if (lisp_menu_item_list) {
+        free((genericptr_t) lisp_menu_item_list);
+        lisp_menu_item_list = NULL;
+    }
     lisp_menu_list_num = 0;
+    lisp_menu_list_max = 0;
     lisp_current_accelerator = 'a';
     lisp_cmd("start-menu", lisp_int(window));
 }
@@ -1035,6 +1037,16 @@ const char *str;            /* menu string */
 boolean preselected;        /* item is marked as selected */
 {
     if (identifier->a_void) {
+        if (lisp_menu_list_num >= lisp_menu_list_max) {
+            lisp_menu_list_max =
+                lisp_menu_list_max ? lisp_menu_list_max * 2 : 16;
+            lisp_menu_item_list = (lisp_menu_item_t *) realloc(
+                lisp_menu_item_list,
+                lisp_menu_list_max * sizeof(lisp_menu_item_t));
+            if (lisp_menu_item_list == NULL)
+                panic(
+                    "Memory allocation failure; cannot grow menu item list");
+        }
         lisp_menu_item_list[lisp_menu_list_num].identifier = *identifier;
         if (ch == 0) {
             ch = lisp_menu_item_list[lisp_menu_list_num].accelerator =
