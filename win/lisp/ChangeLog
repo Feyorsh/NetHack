@@ -3,6 +3,7 @@
 	* winlisp.c (lisp_init_nhwindows): Fix double free (caused by
 	misbehaving TTYs).
 	(read_command): Fix potential sscanf overflow.
+	(lisp_select_menu): Fix potential NULL dereference.
 
 2026-04-02  George Huebner  <george@feyor.sh>
 
