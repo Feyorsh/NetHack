@@ -1133,6 +1133,8 @@ redo:
 
         page = atoi(token);
         token = strtok(NULL, delim);
+        if (token == NULL)
+            break;
         /* assign the item ID */
         if (!lisp_get_menu_identifier(page, atoi(token),
                                       &(*menu_list)[size - 1].item)) {
@@ -1143,6 +1145,8 @@ redo:
 
         /* Read the item count */
         token = strtok(NULL, delim);
+        if (token == NULL)
+            break;
         (*menu_list)[size - 1].count = atoi(token);
 
         /* read the next item ID */
