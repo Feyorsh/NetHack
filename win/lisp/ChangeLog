@@ -1,3 +1,10 @@
+2026-04-13  George Huebner  <george@feyor.sh>
+
+	* winlisp.c (lisp_update_inventory): Now unconditionally sends
+	inventory data.  This means clients are responsible for
+	implementing perm_invent, but it also means clients without
+	perm_invent can access up-to-date inventory data.
+
 2026-04-07  George Huebner  <george@feyor.sh>
 
 	* winlisp.c (print_timestamp): New function to print a timestamp

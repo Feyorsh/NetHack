@@ -1482,10 +1482,8 @@ void lisp_destroy_nhwindow(window) winid window;
 void
 lisp_update_inventory()
 {
-    if (iflags.perm_invent) {
-        lisp_cmd("update-inventory", );
-        display_inventory(NULL, FALSE);
-    }
+    lisp_cmd("update-inventory", );
+    display_inventory(NULL, FALSE);
 }
 
 int
