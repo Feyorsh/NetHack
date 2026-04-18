@@ -1489,7 +1489,7 @@ register const char *let, *word;
         if (&bp[foo] == &buf[sizeof buf - 1]
             || ap == &altlets[sizeof altlets - 1]) {
             /* we must have a huge number of NOINVSYM items somehow */
-            impossible("getobj: inventory overflow");
+            impossible("THIS IS VERY BAD getobj: inventory overflow");
             break;
         }
 
