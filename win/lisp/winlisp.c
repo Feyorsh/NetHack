@@ -1552,6 +1552,11 @@ lisp_init_nhwindows(int *argcp, char **argv)
 
     printf("\n;; START LISP\n");
 
+    /* Print each command-line option, constructing a list of strings */
+    lisp_cmd("init-nhwindows",
+             lisp_string(getversionstring(verbuf, sizeof verbuf));
+             for (i = 0; i < *argcp; i++) lisp_string(argv[i]));
+
     lisp_cmd("need-options-file", );
 
     if (read_string("string", &need_options_file_p) != -1) {
@@ -1574,11 +1579,6 @@ lisp_init_nhwindows(int *argcp, char **argv)
         }
         free(need_options_file_p);
     }
-
-    /* Print each command-line option, constructing a list of strings */
-    lisp_cmd("init-nhwindows",
-             lisp_string(getversionstring(verbuf, sizeof verbuf));
-             for (i = 0; i < *argcp; i++) lisp_string(argv[i]));
 
     /* FIXME: doesn't remove the arguments parsed, as specified in the
        api doc. */
