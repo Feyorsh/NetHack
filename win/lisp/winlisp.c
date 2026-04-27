@@ -1554,7 +1554,8 @@ lisp_init_nhwindows(int *argcp, char **argv)
 
     /* Print each command-line option, constructing a list of strings */
     lisp_cmd("init-nhwindows",
-             lisp_string(getversionstring(verbuf, sizeof verbuf));
+             lisp_string(strcat(getversionstring(verbuf, sizeof verbuf),
+                                " lisp-patch "LISP_VERSION));
              for (i = 0; i < *argcp; i++) lisp_string(argv[i]));
 
     lisp_cmd("need-options-file", );

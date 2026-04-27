@@ -307,9 +307,6 @@ mdlib_version_string(char *outbuf, const char *delim)
 #if (NH_DEVEL_STATUS != NH_STATUS_RELEASED)
     Sprintf(eos(outbuf), "-%d", EDITLEVEL);
 #endif
-#ifdef LISP_GRAPHICS
-    Sprintf(eos(outbuf), " lisp-patch %s", LISP_VERSION);
-#endif
     return outbuf;
 }
 
@@ -421,6 +418,9 @@ build_savebones_compat_string(void)
 }
 
 static const char *const build_opts[] = {
+#ifdef LISP_GRAPHICS
+    "lisp-patch "LISP_VERSION,
+#endif
 #ifdef AMIGA_WBENCH
     "Amiga WorkBench support",
 #endif
