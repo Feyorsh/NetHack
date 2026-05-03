@@ -371,7 +371,7 @@ struct window_procs lisp_procs = {
     } while (0)
 
 struct timeval start;
-void
+static void
 print_timestamp()
 {
     struct timeval now;
@@ -458,7 +458,7 @@ read_int(const char *prompt, int *i)
     print_timestamp();
     printf("%s> ", prompt);
     fflush(stdout);
-    fgets(line, BUFSZ, stdin);
+    (void)fgets(line, BUFSZ, stdin);
     printf("\n");
     rv = sscanf(line, "%d", i);
     if (rv != 1)
@@ -633,7 +633,7 @@ lisp_player_selection(void)
             any.a_int = i + 1; /* must be non-zero */
             add_menu(win, &nul_glyphinfo, &any, 'q', 0, ATR_NONE, NO_COLOR,
                      "Quit", MENU_ITEMFLAGS_NONE);
-            Sprintf(pbuf, "Pick a role for your %s", plbuf);
+            Sprintf(pbuf, "Pick a role for your %.107s", plbuf);
             end_menu(win, pbuf);
             n = select_menu(win, PICK_ONE, &selected);
             destroy_nhwindow(win);
@@ -707,7 +707,7 @@ lisp_player_selection(void)
                 any.a_int = i + 1; /* must be non-zero */
                 add_menu(win, &nul_glyphinfo, &any, 'q', 0, ATR_NONE,
                          NO_COLOR, "Quit", MENU_ITEMFLAGS_NONE);
-                Sprintf(pbuf, "Pick the race of your %s", plbuf);
+                Sprintf(pbuf, "Pick the race of your %.106s", plbuf);
                 end_menu(win, pbuf);
                 n = select_menu(win, PICK_ONE, &selected);
                 destroy_nhwindow(win);
@@ -782,7 +782,7 @@ lisp_player_selection(void)
                 any.a_int = i + 1; /* must be non-zero */
                 add_menu(win, &nul_glyphinfo, &any, 'q', 0, ATR_NONE,
                          NO_COLOR, "Quit", MENU_ITEMFLAGS_NONE);
-                Sprintf(pbuf, "Pick the gender of your %s", plbuf);
+                Sprintf(pbuf, "Pick the gender of your %.104s", plbuf);
                 end_menu(win, pbuf);
                 n = select_menu(win, PICK_ONE, &selected);
                 destroy_nhwindow(win);
@@ -856,7 +856,7 @@ lisp_player_selection(void)
                 any.a_int = i + 1; /* must be non-zero */
                 add_menu(win, &nul_glyphinfo, &any, 'q', 0, ATR_NONE,
                          NO_COLOR, "Quit", MENU_ITEMFLAGS_NONE);
-                Sprintf(pbuf, "Pick the alignment of your %s", plbuf);
+                Sprintf(pbuf, "Pick the alignment of your %.101s", plbuf);
                 end_menu(win, pbuf);
                 n = select_menu(win, PICK_ONE, &selected);
                 destroy_nhwindow(win);
